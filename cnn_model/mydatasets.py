@@ -27,7 +27,7 @@ def load_dataset(data_frame, image_type, model_type):
 	else:
 		df_IMAGE = df
 
-	max_img = 2500
+	max_img = 100
 	new_h = int(320)
 	new_w = int(370)
 
@@ -57,7 +57,7 @@ def load_dataset(data_frame, image_type, model_type):
 
 	# train_x, val_x, train_y, val_y = train_test_split(train_x, train_y, test_size = 0.3)
 
-	size_test = 800
+	size_test = 25
 	test_x = np.zeros((size_test,new_h,new_w))
 	j = 0
 	print('1 D')

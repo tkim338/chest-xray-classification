@@ -18,7 +18,7 @@ def plot_learning_curves(train_losses, valid_losses, train_accuracies, valid_acc
 	plt.title("Loss Curve")
 	plt.legend()
 	plt.grid(True)
-	fig1.savefig('Losses/losses_cnn2500.png')
+	fig1.savefig('Losses/losses_cnn100.png')
 
 	fig2 = plt.figure(2)
 	plt.plot(x_epochs, train_accuracies, label="TRAIN")
@@ -28,7 +28,7 @@ def plot_learning_curves(train_losses, valid_losses, train_accuracies, valid_acc
 	plt.title("Accuracy Curve")
 	plt.legend(loc='lower right')
 	plt.grid(True)
-	fig2.savefig('Accuracies/accuracies_cnn2500.png')
+	fig2.savefig('Accuracies/accuracies_cnn100.png')
 
 	pass
 
@@ -65,6 +65,6 @@ def plot_confusion_matrix(results, class_names):
 					#Differentiate between black and white backgrounds
 	        		color="white" if conf_mat[i, j] > thresh else "black")
 	fig.tight_layout()
-	fig.savefig('ConfusionMatrix/cm_cnn2500.png')
+	fig.savefig('ConfusionMatrix/cm_cnn100.png')
 
 	pass

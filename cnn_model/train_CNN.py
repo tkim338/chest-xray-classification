@@ -23,15 +23,15 @@ cols = cols[-1:]+cols[:-1]
 df =df[cols]
 
 # Path for saving model
-PATH_OUTPUT = "../output/CNN/"
+PATH_OUTPUT = "/best_CNNmodel/"
 os.makedirs(PATH_OUTPUT, exist_ok=True)
 
 # Some parameters
 MODEL_TYPE = 'CNN'  # TODO: Change this to 'MLP', 'CNN', or 'RNN' according to your task
 model = MyCNN()
-save_file = 'MyCNN.pth'
+save_file = 'modelCNN.pth'
 NUM_EPOCHS = 10
-BATCH_SIZE = 100
+BATCH_SIZE = 15
 USE_CUDA = False  # Set 'True' if you want to use GPU
 NUM_WORKERS = 0  # Number of threads used by DataLoader. You can adjust this according to your machine spec.
 
@@ -72,6 +72,9 @@ plot_learning_curves(train_losses, valid_losses, train_accuracies, valid_accurac
 
 best_model = torch.load(os.path.join(PATH_OUTPUT, save_file))
 test_loss, test_accuracy, test_results = evaluate(best_model, device, test_loader, criterion)
+
+out_df = pd.DataFrame(test_results,columns=['Expected','Output']))
+out_df.to_csv("results_cnn.csv")
 
 class_names = ['No Pheurial', 'Pheurial']
 plot_confusion_matrix(test_results, class_names)
