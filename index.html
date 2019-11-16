@@ -47,7 +47,7 @@
 
           <div id="Strategy">
             <h2>Strategy</h2>
-            <p>Going into the project, we were not sure what learning algorithm would be best suited for our needs.  Because of this, we decided to try several different classification algorithms and work from those results.  We tried two unsupervised algorithms: K-Means and Gaussian Mixture Model (GMM).  Neither algorithm produced very good results.  We also tried two supervised learning algorithms and one semi-supervised learning algorithm.  The first supervised learning algorithm was Convolutional Neural Networks (CNN).  The second was K Nearest Neighbors.  Our semi-supervised learning algorithm was a version of Label Propogation called Label Spreading.  Each attempt will be documented in more detail below.
+            <p>Going into the project, we were not sure what learning algorithm would be best suited for our needs.  Because of this, we decided to try several different classification algorithms and work from those results.  We tried two unsupervised algorithms: K-Means and Gaussian Mixture Model (GMM).  Neither algorithm produced very good results.  We also tried two supervised learning algorithms and one semi-supervised learning algorithm.  The first supervised learning algorithm was Convolutional Neural Networks (CNN).  The second was K-Nearest Neighbors.  Our semi-supervised learning algorithm was a version of Label Propogation called Label Spreading.  Each attempt will be documented in more detail below.
             </p>
 
             <div id="Algorithms">
@@ -62,20 +62,19 @@
                   <img src="./images/gmm_cluster_test.png"/>
                   <img src="./images/gmm results/gmm_20.png"/>
 
-              <h3>K Nearest Neighbors (KNN)</h3>
+              <h3>K-Nearest Neighbors (KNN)</h3>
                 <h4>Preprocessing</h4>
-                <p> We used a preprocessing algorithm that thresholds the greyscale x-ray to identify areas that might be lungs in frontal x-rays. We remove any remaining pixels by removing small  to leave just the lungs. This process is shown in the image below.
-                </p>
-                <img src="./images/knn_preprocess.png"/>
+                  <p> We used a preprocessing algorithm that takes the greyscale X-ray images and converts converts them to only two colors to identify areas that might be lungs. As can be seen in the image below, the lungs are significantly darker than the rest of the body, so the algorithm was able to successfully identify the lung areas to pass to our learning algorithm.  We removed any outliers leave just the lungs in the final image. This process is shown in the image below.
+                  </p>
+                  <img src="./images/knn_preprocess.png"/>
                 <h4>Implementation</h4>
-                <p>We used sklearn's neighbor library to implement the K-Nearest Neighbors algorithm. The features were extracted based on the number of pixels making up the left lung, the pixels in the right lung, and the total pixels in the image.
-                  The number of features and optimal number of neighbors was determined.
-                </p>
-                <img src="./images/knn_feat_neigh.png"/>
+                  <p>We used the sci-kit learn implementation of the K-Nearest Neighbors algorithm. The features were extracted based on the number of pixels making up the left lung, the pixels in the right lung, and the total pixels in the image. The number of features and optimal number of neighbors was determined using the image below.
+                  </p>
+                  <img src="./images/knn_feat_neigh.png"/>
                 <h4>Results</h4>
-                <p>The maximum accuracy of 68.8% was found with 125 neighbors and two features (ratio of left pixels to right pixels, and right pixels to total pixels).
-                </p>
-                <h4>Evaluation</h4>
+                  <p>The supervised KNN algorithm was a significant improvement over the unsupervised K-Means and GMM algorithms.  The maximum accuracy of the algorithm was found using 125 neighbors and two features (the ratio of left pixels to right pixels and the ratio of right pixels to total pixels).  However, at only 68.8% accuracy, we still had plenty of room for improvement in subsequent algorithms.
+                  </p>
+                <h4>KNN Evaluation</h4>
                   <ul>
                     <li>Accuracy Score: 0.68836</li>
                     <li>Precision Score: 0.67085</li>
@@ -85,9 +84,15 @@
                   </ul>
 
               <h3>Label Spreading</h3>
-                <p>Label Spreading is a true semi-supervised learning algorithm. It is a form of Label Propogation that uses a loss function and regularization to increase its capacity to handle noise.  We used the sci-kit learn implementation of label spreading.  Label Spreading performed quite well against our testing function, producing the following evaluation scores:
-                </p>
-                <h4>Evaluation</h4>
+                <h4>Preprocessing</h4>
+                  <p>In this attempt, we used a different method for preprocessing our data than we used for KNN.  For Label Spreading, we read in the test images with Matplotlib's pyplot imread function.  We did not do much other preprocessing other than flattening each image to a one-dimensional numpy array.  Each pixel was considered a feature.  We used 70% of the data for training and 30% of the data for testing.
+                  </p>
+                <h4>Implementation</h4>
+                  <p>Label Spreading is a true semi-supervised learning algorithm.  Label Spreading is a form of Label Propogation that uses a loss function and regularization to increase its capacity to handle noise.  We used the sci-kit learn implementation of the algorithm for the program.
+                  </p>
+                <h4>Results</h4>
+                  <p>Label spreading was a significant improvement over any of the previous algorithms that we had tried.  At 86.8%, it boasted a fairly strong accuracy score, with both its Recall and F1 scores breaking 90%.  The full breakdown of evaluation scores can be seen below.
+                <h4>Label Spreading Evaluation</h4>
                   <ul>
                     <li>Accuracy Score: 0.86782</li>
                     <li>Precision Score: 0.88208</li>
