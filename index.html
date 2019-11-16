@@ -63,6 +63,19 @@
                   <img src="./images/gmm results/gmm_20.png"/>
 
               <h3>K Nearest Neighbors (KNN)</h3>
+                <h4>Preprocessing</h4>
+                <p> We used a preprocessing algorithm that thresholds the greyscale x-ray to identify areas that might be lungs in frontal x-rays. We remove any remaining pixels by removing small  to leave just the lungs. This process is shown in the image below.
+                </p>
+                <img src="./images/knn_preprocess.png"/>
+                <h4>Implementation</h4>
+                <p>We used sklearn's neighbor library to implement the K-Nearest Neighbors algorithm. The features were extracted based on the number of pixels making up the left lung, the pixels in the right lung, and the total pixels in the image.
+                  The number of features and optimal number of neighbors was determined.
+                </p>
+                <img src="./images/knn_feat_neigh.png"/>
+                <h4>Results</h4>
+                <p>The maximum accuracy of 68.8% was found with 125 neighbors and two features (ratio of left pixels to right pixels, and right pixels to total pixels).
+                </p>
+
 
               <h3>Label Spreading</h3>
                 <p>Label Spreading is a true semi-supervised learning algorithm. It is a form of Label Propogation that uses a loss function and regularization to increase its capacity to handle noise.  We used the sci-kit learn implementation of label spreading.  Label Spreading performed quite well against our testing function, producing the following evaluation scores:
