@@ -1,6 +1,0 @@
-Purity:
-    GMM => 0.9978100000000001
-    KMeans => 0.9978100000000001
-Normalized Mutual Information:
-    GMM => 0.9900383621721497
-    KMeans => 0.9900094502396716
