@@ -34,3 +34,4 @@ def calc_scores(in_path):
 
 calc_scores("../knn_model/results_knn.csv")
 calc_scores("../labelspread/label_spreading_results.csv")
+calc_scores("../cnn_model/results_cnn.csv")
