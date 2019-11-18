@@ -28,7 +28,7 @@
     <div id="main_content_wrap" class="outer">
       <section id="main_content" class="inner">
           <h2>Overview</h2>
-          <p>This page documents our semester project for Georgia Tech's masters level Machine Learning course in the fall of 2019.  The goal of the project was to create a program capable of taking in X-ray images of a human chest and using those images to determine if the patient has a condition called Pleural Effusion.  According to <a href = "https://medlineplus.gov/ency/article/000086.htm">MedlinePlus.gov</a>, Pleural Effusion occurs when there is an excess amount of fluid built up in the layers of tissue around the lung.  This condition can be visually identified in X-rays because the excess fluid builds up underneath one lung, causing it to be compressed vertically (see Figure 1).  Our goal in this project was to create a program that can identify Pleural Effusion automatically using an X-ray image.</p>
+          <p>This page documents our semester project for Georgia Tech's masters level Machine Learning course in the fall of 2019.  The goal of the project was to create a program capable of taking in X-ray images of a human chest and using those images to determine if the patient has a condition called Pleural Effusion.  According to <a href = "https://medlineplus.gov/ency/article/000086.htm">MedlinePlus.gov</a>, Pleural Effusion occurs when there is an excess amount of fluid built up in the layers of tissue surrounding the lung.  This condition can be visually identified in X-rays because the excess fluid builds up underneath one lung, causing it to be compressed vertically (see Figure 1).  Our goal in this project was to create a program that can identify Pleural Effusion automatically using an X-ray image.</p>
           <img src="./images/pleural_effusion_diagram.svg"><br>
           Figure 1. Image Credit to Cancer Research UK
 
@@ -44,7 +44,7 @@
               <img src="./images/example_pleural_effusion.jpg"/><br>
               Figure 3: Lung With a Pleural Effusion
             <h4>Data Details</h4>
-              <p>The original dataset from CheXpert contained 223,414 images, each classified as either "No Finding" or one of several medical conditions. Because our focus was on Pleural Effusion, removed all data cases that were not either positive Pleural Effusion or positive No Finding.  This cut reduced the size of our dataset to 108,568 images.  Because Pleural Effusion can be best identified from the front, and to prevent the differences in perspective, we also removed all instances of lateral images from the dataset, focusing only on images taken from the front.  This reduced out dataset to its final size of 93,873 images.  While the original dataset contained information about each patient's age and sex, we decided to focus exclusively on the image data and labels.
+              <p>The original dataset from CheXpert contained 223,414 images, each classified as either "No Finding" or one of several medical conditions. Because our focus was on Pleural Effusion, removed all data cases that were not either positive Pleural Effusion or positive No Finding.  This cut reduced the size of our dataset to 108,568 images.  Because Pleural Effusion can be best identified from the front, and to prevent the differences in perspective from dominating the feature set, we removed all instances of lateral images from the dataset, focusing only on images taken from the front.  This reduced out dataset to its final size of 93,873 images.  While the original dataset contained information about each patient's age and sex, we decided to focus exclusively on the image data and labels.
 
 
           <div id="Strategy">
@@ -54,7 +54,7 @@
 
             <div id="Algorithms">
               <h3>K-Means and Gaussian Mixture Model (GMM)</h3>
-                <p>We used the sci-kit learn python packages for our implementation of K-Means and GMM.  To attempt to capture more complex data, we created 20 different clusters for each algorithm, with the intent that some clusters would be composed of mostly positive Pleural Effusion data while the rest of the clusters were mostly No Finding.  Even with 20 clusters and only the frontal images being considered, both K-Means and GMM struggled to produce any meaningful results.  Our conclusion is that unsupervised clustering is simply not powerful enough to assist in this project without significant data preprocessing to bring out the important features.
+                <p>We used the sci-kit learn python packages for our implementation of K-Means and GMM.  To attempt to capture more complex data, we created 20 different clusters for each algorithm, with the intent that some clusters would be composed of mostly positive Pleural Effusion data while the rest of the clusters were mostly No Finding.  Even with 20 clusters and only the frontal images being considered, both K-Means and GMM struggled to produce any meaningful results.  Our conclusion is that unsupervised clustering is simply not powerful enough to assist in this project without significant data pre-processing to bring out the important features.
                 </p>
                 <p>Below are the images we reconstructed for the 20 clusters we created, as well as some plots showing the distribution of data throughout the clusters.  As you can clearly see, these approaches produced nothing of interest.</p>
                 <h4>K-Means:</h4>
@@ -66,11 +66,11 @@
                   <img src="./images/gmm_cluster_test.png"/><br>
                   Figure 6: GMM Clustering
                   <img src="./images/gmm results/gmm_20.png"/><br>
-                  Figure 7: GMM Clustering
+                  Figure 7: GMM Clustering Distributions
 
               <h3>K-Nearest Neighbors (KNN)</h3>
                 <h4>Preprocessing</h4>
-                  <p> We used a preprocessing algorithm that takes the greyscale X-ray images and converts converts them to only two colors to identify areas that might be lungs. As can be seen in the image below, the lungs are significantly darker than the rest of the body, so the algorithm was able to successfully identify the lung areas to pass to our learning algorithm.  We removed any outliers leave just the lungs in the final image. This process is shown in the image below.
+                  <p> We used a pre-processing algorithm that takes the greyscale X-ray images and converts them to only two colors to identify areas that might be lungs. As can be seen in the image below, the lungs are significantly darker than the rest of the body, so the algorithm was able to successfully identify the lung areas to pass to our learning algorithm.  We removed any outliers to leave just the lungs in the final image. This process is shown in Figure 8.
                   </p>
                   <img src="./images/knn_preprocess.png"/><br>
                   Figure 8: KNN Preprocessing Process
@@ -80,7 +80,7 @@
                   <img src="./images/knn_feat_neigh.png"/><br>
                   Figure 9: Finding the Optimal Number of Neighbors
                 <h4>Results</h4>
-                  <p>The supervised KNN algorithm was a significant improvement over the unsupervised K-Means and GMM algorithms.  The maximum accuracy of the algorithm was found using 125 neighbors and two features (the ratio of left pixels to right pixels and the ratio of right pixels to total pixels). The accuracy was still relatively low, which may be due to inconsistancies in the preprocessing algorithm, as the algorithm worked very well for some X-ray images and not well at all for others. With only 68.8% accuracy, there is still plenty of room for improvement in subsequent algorithms.
+                  <p>The supervised KNN algorithm was a significant improvement over the unsupervised K-Means and GMM algorithms.  The maximum accuracy of the algorithm was found using 125 neighbors and two features (the ratio of left pixels to right pixels and the ratio of right pixels to total pixels). The accuracy was still relatively low, which may be due to inconsistancies in the preprocessing algorithm, as the algorithm worked very well for some X-ray images and not well at all for others. With only 68.8% accuracy, there is still plenty of room for improvement in subsequent algorithms.  The evaluation scores (calculated with sci-kit learn functions) are shown below.
                   </p>
                 <h4>KNN Evaluation</h4>
                   <ul>
@@ -115,7 +115,7 @@
                   <p>Similar to the approach used in Label Spreading, we read the chest X-ray images using Matplotlib's pyplot imread function. After this, we resized the array generated by the imread function to ensure that every image would have the same number of features.  We turned these images into a 3-D  Numpy array to pass to the Neural Network.  Then, we split the data into two sets: 70% for training, and 30% for validation.  We also created an additional testing data set of approximately 30-40% the size of the training dataset to help choose the best model.  It is important to emphasize that because the team decided to use the PyTorch library for CNN, the data had to be converted from Numpy arrays into a Tensor data set.
                   </p>
                 <h4>Implementation</h4>
-                  <p>For Convolutional Neural Network, as previously mentioned, the team decided to use PyTorch to build the structure of the model. This structure was composed of a combination of convolutional layers with their respective activation layers, such as ReLU and Max pooling, to then be passed to a linear regression layer to output the predictions. After choosing the best model with 10 epochs and a batch-size of 32 for small data-sets and 50 for bigger data-sets, we test the algorithm testing data set.  The results can be seen below in Figure 10.
+                  <p>For Convolutional Neural Network, as previously mentioned, the team decided to use PyTorch to build the structure of the model. This structure was composed of a combination of convolutional layers with their respective activation layers, such as ReLU and Max pooling, to then be passed to a linear regression layer to output the predictions. Using a batch-size of 32 for small data-sets and 50 for bigger data-sets, the algorithm chooses the best model at each of the 10 epochs and tests it against the testing data.  The results can be seen below in Figure 10.
                   </p>
                   <img src="./images/accuracies_cnn2500.png"/><br>
                   Figure 10: Accuracy After Each Epoch
@@ -138,6 +138,14 @@
             <h2>Conclusion</h2>
               <p>Overall, this project was a success, as both CNN and Label Spreading produced excellent results on the test data.  Through this project, we learned that it is often harder to prepare your data for machine learning than it is to actually perform the learning.  There are so many excellent algorithms freely available through libraries like sci-kit learn that the actual learning process is fairly simple to implement.  The challenging part can be getting the data from its original form into a form that can be read and understood by these algorithms.  While we could potentially have produced even better results with more advanced data pre-processing, we feel that we were able to successfully complete our goal of producing a solid algorithm for Pleural Effusion identification in X-Ray images. We believe that the next step to improving our prediction models would be to focused on better preprocessing of the data using methods such as a lung identification algorithm and heatmaps.
               </p>
+
+            <h2>Individual Responsibilities</h2>
+              <ul>
+                <li>Thomas Kim: Unsupervised learning algorithms.</li>
+                <li>Wyndham Hudson: K-Nearest Neighbors algorithm.</li>
+                <li>Steven Hillerman: Label Spreading algorithm and webpage editing</li>
+                <li>Leo Camacho: CNN algorithm</li>
+              </ul>
 
             <h2>References</h2>
               <ul>
